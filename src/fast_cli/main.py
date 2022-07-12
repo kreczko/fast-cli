@@ -40,5 +40,67 @@ def download(
     download_from_json(json_input, destination, force)
 
 
+@app.command()
+def carpenter(
+    dataset_cfg: str = typer.Argument(None, help="Dataset config to run over"),
+    sequence_cfg: str = typer.Argument(None, help="Config for how to process dataset"),
+    output_dir: str = typer.Option(
+        "output", "--outdir", "-o", help="Where to save the results"
+    ),
+    processing_backend: str = typer.Option(
+        "multiprocessing", "--backend", "-b", help="Backend to use for processing"
+    ),
+    store_bookkeeping: bool = typer.Option(
+        True, "--store-bookkeeping", "-s", help="Store bookkeeping information"
+    ),
+) -> None:
+    """
+    Run the FAST-HEP carpenter
+    """
+    try:
+        import fast_curator
+        import fast_flow.v1
+        from fast_carpenter import backends, bookkeeping, data_import
+    except ImportError:
+        rich.print(
+            "[red]FAST-HEP carpenter is not installed. Please run 'pip install fast-carpenter'[/]",
+            style="red",
+        )
+        return
+    import os
+    import sys
+
+    from ._carpenter import CarpenterSettings
+
+    sequence, sequence_cfg = fast_flow.v1.read_sequence_yaml(
+        sequence_cfg,
+        output_dir=output_dir,
+        backend="fast_carpenter",
+        return_cfg=True,
+    )
+    datasets = fast_curator.read.from_yaml(dataset_cfg)
+    backend = backends.get_backend(processing_backend)
+    if store_bookkeeping:
+        book_keeping_file = os.path.join(output_dir, "book-keeping.tar.gz")
+        bookkeeping.write_booking(
+            book_keeping_file, sequence_cfg, datasets, cmd_line_args=sys.argv[1:]
+        )
+        # fast_carpenter.store_bookkeeping(datasets, output_dir)
+    settings = CarpenterSettings(
+        ncores=1,
+        outdir=output_dir,
+    )
+    results, _ = backend.execute(
+        sequence,
+        datasets,
+        args=settings,
+        plugins={
+            "data_import": data_import.get_data_import_plugin("multitree", dataset_cfg)
+        },
+    )
+    rich.print(f"[blue]Results[/]: {results}")
+    rich.print(f"[blue]Output written to directory {output_dir}[/]")
+
+
 def main() -> typer.Typer:
     return app()
