@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 
 [project]
-name = "fast_cli"
+name = "fasthep_cli"
 authors = [
     { name = "Luke Kreczko", email = "fast-hep@cern.ch" },
 ]
@@ -54,7 +54,7 @@ docs = [
 ]
 
 [project.urls]
-homepage = "https://github.com/FAST-HEP/fast-cli"
+homepage = "https://github.com/FAST-HEP/fasthep-cli"
 
 
 [tool.pytest.ini_options]
@@ -83,7 +83,7 @@ profile = "black"
 
 [tool.pylint]
 master.py-version = "3.7"
-master.ignore-paths= ["src/fast_cli/_version.py"]
+master.ignore-paths= ["src/fasthep_cli/_version.py"]
 reports.output-format = "colorized"
 similarities.ignore-imports = "yes"
 messages_control.disable = [

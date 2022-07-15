@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import fast_cli as m
+import fasthep_cli as m
 
 
 def test_version():

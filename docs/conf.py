@@ -11,7 +11,7 @@ from __future__ import annotations
 
 # -- Project information -----------------------------------------------------
 
-project = "fast-cli"
+project = "fasthep-cli"
 copyright = "2022, The FAST-HEP maintainers"
 author = "Luke Kreczko"
 
@@ -47,11 +47,11 @@ html_theme = "sphinx_book_theme"
 
 html_title = f"{project}"
 
-html_baseurl = "https://fast_cli.readthedocs.io/en/latest/"
+html_baseurl = "https://fasthep_cli.readthedocs.io/en/latest/"
 
 html_theme_options = {
     "home_page_in_toc": True,
-    "repository_url": "https://github.com/FAST-HEP/fast-cli",
+    "repository_url": "https://github.com/FAST-HEP/fasthep-cli",
     "use_repository_button": True,
     "use_issues_button": True,
     "use_edit_page_button": True,
