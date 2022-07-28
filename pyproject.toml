@@ -36,10 +36,7 @@ dynamic = ["version"]
 
 dependencies = [
     "typer",
-<<<<<<< HEAD
     "requests",
-=======
->>>>>>> added fasthep version(s)
     "rich",
 ]
 
