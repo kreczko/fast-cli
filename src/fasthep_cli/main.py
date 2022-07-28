@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+from enum import Enum
+
 import rich
 import typer
+from tabulate import tabulate
 
 # from .logger import console_handler, user_logger
 from . import __version__
@@ -19,11 +22,38 @@ def version() -> None:
     rich.print(f"[blue]FAST-HEP CLI Version[/]: [magenta]{__version__}[/]")
 
 
+class DisplayFormats(str, Enum):
+    simple = "simple"
+    pip = "pip"
+    table = "table"
+
+
 @app.command()
-def versions() -> None:
+def versions(
+    display_format: DisplayFormats = typer.Option(
+        "simple", "--display", "-d", help="Display format"
+    )
+) -> None:
     """Show versions of all found FAST-HEP packages"""
-    for package, version in _find_fast_hep_packages():
-        rich.print(f"[blue]{package}[/]: [magenta]{version}[/]")
+    separator = ": "
+    if display_format == DisplayFormats.pip:
+        separator = "=="
+
+    if display_format == DisplayFormats.simple or display_format == DisplayFormats.pip:
+        for package, version in _find_fast_hep_packages():
+            rich.print(f"[blue]{package}[/]{separator}[magenta]{version}[/]")
+    elif display_format == DisplayFormats.table:
+        headers = ["Package", "Version"]
+        table = [(package, version) for package, version in _find_fast_hep_packages()]
+        tablefmt = "github"
+        rich.print(
+            tabulate(
+                table,
+                headers=headers,
+                tablefmt=tablefmt,
+                colalign=("left", "right"),
+            )
+        )
 
 
 @app.command()

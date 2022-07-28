@@ -86,7 +86,8 @@ repos:
       - id: mypy
         files: src
         args: []
-        additional_dependencies: [types-setuptools, types-requests]
+        additional_dependencies:
+          [types-setuptools, types-requests, types-tabulate]
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.1.0
