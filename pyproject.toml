@@ -35,6 +35,7 @@ classifiers = [
 dynamic = ["version"]
 
 dependencies = [
+    "mplhep",
     "requests",
     "rich",
     "tabulate",
