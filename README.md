@@ -14,8 +14,8 @@
 [actions-link]:             https://github.com/FAST-HEP/fasthep-cli/actions
 [github-discussions-badge]: https://img.shields.io/static/v1?label=Discussions&message=Ask&color=blue&logo=github
 [github-discussions-link]:  https://github.com/FAST-HEP/fasthep-cli/discussions
-[gitter-badge]:             https://badges.gitter.im/https://github.com/FAST-HEP/fasthep-cli/community.svg
-[gitter-link]:              https://gitter.im/https://github.com/FAST-HEP/fasthep-cli/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+[gitter-badge]:             https://badges.gitter.im/FAST-HEP/community.svg
+[gitter-link]:              https://gitter.im/FAST-HEP/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [pypi-link]:                https://pypi.org/project/fasthep-cli/
 [pypi-platforms]:           https://img.shields.io/pypi/pyversions/fasthep-cli
 [pypi-version]:             https://badge.fury.io/py/fasthep-cli.svg
