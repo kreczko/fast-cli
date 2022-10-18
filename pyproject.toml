@@ -36,6 +36,7 @@ dynamic = ["version"]
 
 dependencies = [
     "mplhep",
+    "PyYAML",
     "requests",
     "rich",
     "tabulate",
