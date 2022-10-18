@@ -94,7 +94,6 @@ def carpenter(
     except ImportError:
         rich.print(
             "[red]FAST-HEP carpenter is not installed. Please run 'pip install fast-carpenter'[/]",
-            style="red",
         )
         return
     import os
