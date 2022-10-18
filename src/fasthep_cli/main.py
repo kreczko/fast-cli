@@ -132,5 +132,21 @@ def carpenter(
     rich.print(f"[blue]Output written to directory {output_dir}[/]")
 
 
+@app.command()
+def plotter(
+    input_files: list[str] = typer.Argument(None, min=1, help="Input files"),
+    config_file: str = typer.Option(None, "--config", "-c", help="PlotConfig file"),
+    output_dir: str = typer.Option(
+        "output", "--outdir", "-o", help="Where to save the results"
+    ),
+    force: bool = typer.Option(
+        False, "--force", "-f", help="Overwrite existing output_dir"
+    ),
+) -> None:
+    from ._plotter import _make_plots
+
+    _make_plots(input_files, config_file, output_dir, force)
+
+
 def main() -> typer.Typer:
     return app()
