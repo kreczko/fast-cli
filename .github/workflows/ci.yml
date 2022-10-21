@@ -89,4 +89,4 @@ jobs:
         with:
           user: __token__
           # Remember to generate this and set it in "GitHub Secrets"
-          password: ${{ secrets.TEMP_PYPI_TOKEN }}
+          password: ${{ secrets.pypi_password }}
