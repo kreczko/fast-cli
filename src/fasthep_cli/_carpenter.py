@@ -1,16 +1,13 @@
-# import typer
-
-# app = typer.Typer(help="CLI for fast-carpenter")
-
+""" Module for fasthep-carpenter functions and settings """
 from __future__ import annotations
 
-# @app.command()
-# def
 from dataclasses import dataclass
 
 
 @dataclass
 class CarpenterSettings:
+    """Settings for fasthep-carpenter"""
+
     ncores: int = 1
     outdir: str = "output"
     quiet: bool = False

@@ -1,3 +1,4 @@
+""" Entry point for fasthep command line interface """
 from __future__ import annotations
 
 from enum import Enum
@@ -23,9 +24,11 @@ def version() -> None:
 
 
 class DisplayFormats(str, Enum):
-    simple = "simple"
-    pip = "pip"
-    table = "table"
+    """Display formats for command output"""
+
+    SIMPLE = "simple"
+    PIP = "pip"
+    TABLE = "table"
 
 
 @app.command()
@@ -36,15 +39,15 @@ def versions(
 ) -> None:
     """Show versions of all found FAST-HEP packages"""
     separator = ": "
-    if display_format == DisplayFormats.pip:
+    if display_format == DisplayFormats.PIP:
         separator = "=="
 
-    if display_format == DisplayFormats.simple or display_format == DisplayFormats.pip:
-        for package, version in _find_fast_hep_packages():
-            rich.print(f"[blue]{package}[/]{separator}[magenta]{version}[/]")
-    elif display_format == DisplayFormats.table:
+    if display_format in (DisplayFormats.SIMPLE, DisplayFormats.PIP):
+        for package, _version in _find_fast_hep_packages():
+            rich.print(f"[blue]{package}[/]{separator}[magenta]{_version}[/]")
+    elif display_format == DisplayFormats.TABLE:
         headers = ["Package", "Version"]
-        table = [(package, version) for package, version in _find_fast_hep_packages()]
+        table = list(_find_fast_hep_packages())
         tablefmt = "github"
         rich.print(
             tabulate(
@@ -66,7 +69,10 @@ def download(
         False, "--force", "-f", help="Force download; overwriting existing files"
     ),
 ) -> None:
-    """Download files specified in JSON input file into destination directory"""
+    """Download files specified in JSON input file into destination directory.
+    JSON input file should be a dictionary with the following structure:
+    {   "file1": "url1", "file2": "url2", ... }
+    """
     download_from_json(json_input, destination, force)
 
 
@@ -142,10 +148,12 @@ def plotter(
         False, "--force", "-f", help="Overwrite existing output_dir"
     ),
 ) -> None:
+    """Command to invoke the FAST-HEP plotter"""
     from ._plotter import _make_plots
 
     _make_plots(input_files, config_file, output_dir, force)
 
 
 def main() -> typer.Typer:
+    """Entry point for fasthep command line interface"""
     return app()
