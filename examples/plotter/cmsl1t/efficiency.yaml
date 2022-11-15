@@ -1,0 +1,35 @@
+---
+plotter-version: 1
+
+styles:
+  - name: cms-l1t-efficiency
+    title: CMS L1T Efficiency
+    label: CMS Preliminary
+    make-legend: true
+    plugins:
+      mplhep:
+        experiment: CMS
+      matplotlib:
+        markersize: 6
+        histtype: errorbar
+        xerr: true
+        capsize: 2
+        xmax: 50.0
+
+# Define the data
+collections:
+  test-2:
+    title: test
+    style: cms-l1t-efficiency
+    type: efficiency
+    source-type: root
+    ylabel: Efficiency
+    xlabel: "$p_T$ (GeV)"
+    legend-title: "$|\eta| < 5.0$"
+    sources:
+      - label: "$p_T$ > 30"
+        path: efficiency__L1__offline_pfJetET_BE_Emu/efficiencyefficiency__L1__offline_pfJetET_BE_Emu__thresh_0__pu_0
+        color: black
+      - label: "$p_T$ > 60"
+        path: efficiency__L1__offline_pfJetET_BE_Emu/efficiencyefficiency__L1__offline_pfJetET_BE_Emu__thresh_1__pu_0
+        color: limegreen
