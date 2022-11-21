@@ -42,8 +42,5 @@ def _make_plots(
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    # convert YAML config file to dict
-    with open(config_file, encoding="utf-8") as file_handle:
-        plot_config: dict[str, Any] = yaml.safe_load(file_handle)
 
-    make_plots(plot_config, input_files, output_dir)
+    make_plots(config_file, input_files, output_dir)

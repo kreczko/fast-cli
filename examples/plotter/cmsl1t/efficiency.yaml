@@ -2,10 +2,7 @@
 plotter-version: 1
 
 styles:
-  - name: cms-l1t-efficiency
-    title: CMS L1T Efficiency
-    label: CMS Preliminary
-    make-legend: true
+  cms-l1t-efficiency:
     plugins:
       mplhep:
         experiment: CMS
@@ -22,10 +19,11 @@ collections:
     title: test
     style: cms-l1t-efficiency
     type: efficiency
-    source-type: root
-    ylabel: Efficiency
-    xlabel: "$p_T$ (GeV)"
-    legend-title: "$|\eta| < 5.0$"
+    labels:
+      ylabel: Efficiency
+      xlabel: "$p_T$ (GeV)"
+    legend:
+      title: "$|\eta| < 5.0$"
     sources:
       - label: "$p_T$ > 30"
         path: efficiency__L1__offline_pfJetET_BE_Emu/efficiencyefficiency__L1__offline_pfJetET_BE_Emu__thresh_0__pu_0
