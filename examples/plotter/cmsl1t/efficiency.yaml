@@ -6,12 +6,31 @@ styles:
     plugins:
       mplhep:
         experiment: CMS
-      matplotlib:
-        markersize: 6
-        histtype: errorbar
-        xerr: true
-        capsize: 2
-        xmax: 50.0
+        label_kwargs:
+          rlabel: "13 TeV"
+          data: False
+          fontsize: 16
+    labels:
+      show_title: false
+      ylabel: Efficiency
+      kwargs:
+        fontsize: 16
+    legend:
+      show: true
+      kwargs:
+        loc: 'lower right'
+        fontsize: 16
+        title_fontsize: 16
+        alignment: 'left'
+    axes:
+      ylimits: [0, 1.12]
+      ymajor_ticks: 6
+      yminor_ticks: 24
+      xmajor_ticks: 4
+      xminor_ticks: 20
+    grid_overlay:
+      ylimits: [0.0, 1.0]
+      horizontal_lines: [0.25, 0.5, 0.75, 0.95, 1]
 
 # Define the data
 collections:
@@ -20,7 +39,6 @@ collections:
     style: cms-l1t-efficiency
     type: efficiency
     labels:
-      ylabel: Efficiency
       xlabel: "$p_T$ (GeV)"
     legend:
       title: "$|\eta| < 5.0$"
@@ -31,3 +49,8 @@ collections:
       - label: "$p_T$ > 60"
         path: efficiency__L1__offline_pfJetET_BE_Emu/efficiencyefficiency__L1__offline_pfJetET_BE_Emu__thresh_1__pu_0
         color: limegreen
+    axes:
+      xlimits: [0, 40]
+    grid_overlay:
+      xlimits: [0.0, 50.0]
+      vertical_lines: [10, 20, 30]
