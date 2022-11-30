@@ -18,10 +18,10 @@ styles:
     legend:
       show: true
       kwargs:
-        loc: 'lower right'
+        loc: "lower right"
         fontsize: 16
         title_fontsize: 16
-        alignment: 'left'
+        alignment: "left"
     axes:
       ylimits: [0, 1.12]
       ymajor_ticks: 6

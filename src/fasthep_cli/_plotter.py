@@ -2,10 +2,8 @@
 from __future__ import annotations
 
 import os
-from typing import Any
 
 import rich
-import yaml
 
 
 def _run_checks(
