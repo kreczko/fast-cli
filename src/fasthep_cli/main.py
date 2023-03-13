@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from enum import Enum
+from pathlib import Path
 
 import rich
 import typer
@@ -78,8 +79,8 @@ def download(
 
 @app.command()
 def carpenter(
-    dataset_cfg: str = typer.Argument(None, help="Dataset config to run over"),
-    sequence_cfg: str = typer.Argument(None, help="Config for how to process dataset"),
+    dataset_cfg: Path = typer.Argument(None, help="Dataset config to run over"),
+    sequence_cfg: Path = typer.Argument(None, help="Config for how to process dataset"),
     output_dir: str = typer.Option(
         "output", "--outdir", "-o", help="Where to save the results"
     ),
@@ -129,9 +130,7 @@ def carpenter(
         sequence,
         datasets,
         args=settings,
-        plugins={
-            "data_import": data_import.get_data_import_plugin("multitree", dataset_cfg)
-        },
+        plugins={"data_import": data_import.get_data_import_plugin("uproot4", None)},
     )
     rich.print(f"[blue]Results[/]: {results}")
     rich.print(f"[blue]Output written to directory {output_dir}[/]")
@@ -156,4 +155,8 @@ def plotter(
 
 def main() -> typer.Typer:
     """Entry point for fasthep command line interface"""
+    from .logo import get_logo
+
+    logo = get_logo()
+    typer.echo(logo)
     return app()
