@@ -1,3 +1,4 @@
+"""FAST-HEP logo and welcome text for console output"""
 from __future__ import annotations
 
 import copy
@@ -120,6 +121,8 @@ For more information, please visit https://fast-hep.web.cern.ch/fast-hep/
 
 
 class MultiLineText:
+    """Class to represent multi-line text"""
+
     lines: list[str]
 
     def __init__(self, text: MultiLineText | str) -> None:
@@ -134,37 +137,44 @@ class MultiLineText:
         return self.lines[index]
 
     def __len__(self) -> int:
+        """Return the length of the longest line (i.e. the width)"""
         return max(len(line) for line in self.lines)
 
     @property
     def height(self) -> int:
+        """Return the number of lines (i.e. the height)"""
         return len(self.lines)
 
     @property
     def width(self) -> int:
+        """Alias for __len__"""
         return len(self)
 
     def pad_height(self, top: int = 0, bottom: int = 0) -> None:
+        """Pad the text with empty lines on top and/or bottom"""
         self.lines = [" " * self.width] * top + self.lines + [" " * self.width] * bottom
 
     def pad_width(self, left: int = 0, right: int = 0) -> None:
+        """Pad the text with empty spaces on left and/or right"""
         self.lines = [
             line.ljust(self.width + right).rjust(self.width + left)
             for line in self.lines
         ]
 
     def append(self, text: MultiLineText, spacing: int = 2) -> None:
+        """Append text to the current text"""
         diff_height = self.height - text.height
         if diff_height < 0:
             self.pad_height(bottom=abs(diff_height))
 
         lines = []
-        for l1, l2 in zip(self.lines, text.lines):
-            l1 += " " * spacing + l2
-            lines.append(l1)
+        for line1, line2 in zip(self.lines, text.lines):
+            line1 += " " * spacing + line2
+            lines.append(line1)
         self.lines = lines
 
     def overlay(self, text: MultiLineText, offset: int = 0) -> MultiLineText:
+        """Overlay text on top of the current text"""
         result = MultiLineText(copy.deepcopy(self))
         diff_height = result.height - text.height
 
@@ -195,6 +205,7 @@ class MultiLineText:
         return result
 
     def __str__(self) -> str:
+        """Return the text as a string"""
         return "\n".join(self.lines)
 
 
@@ -211,6 +222,7 @@ def merge_pieces(pieces: list[str], spacing: int = 2) -> MultiLineText:
 
 
 def get_logo() -> str:
+    """Return the FAST-HEP logo"""
     space = "\n".join([" " * 11] * 9)
     merged = merge_pieces(
         [space, logo_f, logo_a, logo_s, logo_t, space, logo_h, logo_e, logo_p]
@@ -222,9 +234,5 @@ def get_logo() -> str:
     return str(logo) + welcome + "\n"
 
 
-def main() -> None:
-    print(get_logo())  # noqa: T201
-
-
 if __name__ == "__main__":
-    main()
+    print(get_logo())  # noqa: T201
