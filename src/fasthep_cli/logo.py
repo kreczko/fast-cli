@@ -84,15 +84,20 @@ logo_p: str = """
 ╚══╝
 """
 
-logo_stripes: str = """
+logo_stripes: str = "\n".join(
+    [
+        " ",
+        " ",
+        2 * " " + 58 * "=",
+        " ",
+        9 * " " + 16 * "=",
+        " ",
+        4 * " " + 18 * "=",
+        " ",
+        " ",
+    ]
+)
 
-▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-
-      ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-
-   ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-
-"""
 
 logo_runner: str = """
              ▄███▄
@@ -142,6 +147,12 @@ class MultiLineText:
     def pad_height(self, top: int = 0, bottom: int = 0) -> None:
         self.lines = [" " * self.width] * top + self.lines + [" " * self.width] * bottom
 
+    def pad_width(self, left: int = 0, right: int = 0) -> None:
+        self.lines = [
+            line.ljust(self.width + right).rjust(self.width + left)
+            for line in self.lines
+        ]
+
     def append(self, text: MultiLineText, spacing: int = 2) -> None:
         diff_height = self.height - text.height
         if diff_height < 0:
@@ -163,6 +174,11 @@ class MultiLineText:
             padding_top = padding // 2
             padding_bottom = padding - padding_top
             result.pad_height(top=padding_top, bottom=padding_bottom)
+
+        diff_width = result.width - (text.width + offset)
+        if diff_width < 0:
+            padding = abs(diff_width)
+            result.pad_width(right=padding)
 
         for i, line in enumerate(text.lines):
             start = offset
@@ -200,6 +216,8 @@ def get_logo() -> str:
         [space, logo_f, logo_a, logo_s, logo_t, space, logo_h, logo_e, logo_p]
     )
     logo = merged.overlay(MultiLineText(logo_runner), offset=59)
+    stripes = MultiLineText(logo_stripes)
+    logo = stripes.overlay(logo, offset=0)
     welcome = "\n".join([line.center(logo.width) for line in welcome_text.split("\n")])
     return str(logo) + welcome + "\n"
 
