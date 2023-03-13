@@ -108,6 +108,12 @@ logo_runner: str = """
 """
 
 
+welcome_text: str = """
+Welcome to the FAST-HEP command line interface
+For more information, please visit https://fast-hep.web.cern.ch/fast-hep/
+"""
+
+
 class MultiLineText:
     lines: list[str]
 
@@ -188,12 +194,14 @@ def merge_pieces(pieces: list[str], spacing: int = 2) -> MultiLineText:
     return result
 
 
-def get_logo() -> MultiLineText:
+def get_logo() -> str:
     space = "\n".join([" " * 11] * 9)
     merged = merge_pieces(
         [space, logo_f, logo_a, logo_s, logo_t, space, logo_h, logo_e, logo_p]
     )
-    return merged.overlay(MultiLineText(logo_runner), offset=59)
+    logo = merged.overlay(MultiLineText(logo_runner), offset=59)
+    welcome = "\n".join([line.center(logo.width) for line in welcome_text.split("\n")])
+    return str(logo) + welcome + "\n"
 
 
 def main() -> None:

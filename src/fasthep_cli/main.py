@@ -157,10 +157,6 @@ def main() -> typer.Typer:
     """Entry point for fasthep command line interface"""
     from .logo import get_logo
 
-    typer.echo(get_logo())
-    typer.echo("Welcome to the FAST-HEP command line interface")
-    typer.echo(
-        "For more information, please visit https://fast-hep.web.cern.ch/fast-hep/"
-    )
-    typer.echo("")
+    logo = get_logo()
+    typer.echo(logo)
     return app()
