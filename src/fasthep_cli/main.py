@@ -15,6 +15,14 @@ from ._software import _find_fast_hep_packages
 
 app = typer.Typer()
 
+# TODO: Add a logger to the CLI
+# 1. implement a callback for the logger setup
+# 2. add parameter for --quiet # LOG_LEVEL = logging.ERROR
+# 3. add parameter for --verbose # LOG_LEVEL = logging.DEBUG
+# 4. add parameter for --log-file # LOG_FILE = "fasthep.log"
+# 5. add parameter for --debug <detail> # LOG_LEVEL = logging.<detail>
+# where detail is one of [TRACE, TIMING]
+
 
 @app.command()
 def version() -> None:
