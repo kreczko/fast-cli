@@ -1,7 +1,28 @@
 """Functions for finding FAST-HEP software"""
 from __future__ import annotations
 
+from typing import Callable, Iterator
+
 import pkg_resources
+
+
+def __find_package_versions(
+    filter_function: Callable[[str], bool]
+) -> Iterator[tuple[str, str]]:
+    """
+    Find the versions of a list of packages
+    """
+    installed_packages = list(pkg_resources.working_set)
+    for installed_package in installed_packages:
+        if filter_function(installed_package.key):
+            yield installed_package.key, installed_package.version
+
+
+def _find_package_versions(package_names: list[str]) -> list[tuple[str, str]]:
+    """
+    Find the versions of a list of packages
+    """
+    return sorted(list(__find_package_versions(lambda x: x in package_names)))
 
 
 def _is_fasthep_package(package_name: str) -> bool:
@@ -19,9 +40,4 @@ def _find_fast_hep_packages() -> list[tuple[str, str]]:
     """
     Find all FAST-HEP packages
     """
-    fasthep_packages = {}
-    installed_packages = list(pkg_resources.working_set)
-    for installed_package in installed_packages:
-        if _is_fasthep_package(installed_package.key):
-            fasthep_packages[installed_package.key] = installed_package.version
-    return sorted(fasthep_packages.items(), key=lambda x: (x[0], x[1]))
+    return list(__find_package_versions(_is_fasthep_package))

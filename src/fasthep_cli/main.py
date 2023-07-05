@@ -15,6 +15,14 @@ from ._software import _find_fast_hep_packages
 
 app = typer.Typer()
 
+# TODO: Add a logger to the CLI
+# 1. implement a callback for the logger setup
+# 2. add parameter for --quiet # LOG_LEVEL = logging.ERROR
+# 3. add parameter for --verbose # LOG_LEVEL = logging.DEBUG
+# 4. add parameter for --log-file # LOG_FILE = "fasthep.log"
+# 5. add parameter for --debug <detail> # LOG_LEVEL = logging.<detail>
+# where detail is one of [TRACE, TIMING]
+
 
 @app.command()
 def version() -> None:
@@ -95,45 +103,19 @@ def carpenter(
     Run the FAST-HEP carpenter
     """
     try:
-        import fast_curator
-        import fast_flow.v1
-        from fast_carpenter import backends, bookkeeping, data_import
+        from fasthep_carpenter import run_carpenter
     except ImportError:
         rich.print(
-            "[red]FAST-HEP carpenter is not installed. Please run 'pip install fast-carpenter'[/]",
+            "[red]FAST-HEP carpenter is not installed. Please run 'pip install fasthep-carpenter'[/]",
         )
         return
-    import os
-    import sys
-
-    from ._carpenter import CarpenterSettings
-
-    sequence, sequence_cfg = fast_flow.v1.read_sequence_yaml(
+    run_carpenter(
+        dataset_cfg,
         sequence_cfg,
-        output_dir=output_dir,
-        backend="fast_carpenter",
-        return_cfg=True,
+        output_dir,
+        processing_backend,
+        store_bookkeeping,
     )
-    datasets = fast_curator.read.from_yaml(dataset_cfg)
-    backend = backends.get_backend(processing_backend)
-    if store_bookkeeping:
-        book_keeping_file = os.path.join(output_dir, "book-keeping.tar.gz")
-        bookkeeping.write_booking(
-            book_keeping_file, sequence_cfg, datasets, cmd_line_args=sys.argv[1:]
-        )
-        # fast_carpenter.store_bookkeeping(datasets, output_dir)
-    settings = CarpenterSettings(
-        ncores=1,
-        outdir=output_dir,
-    )
-    results, _ = backend.execute(
-        sequence,
-        datasets,
-        args=settings,
-        plugins={"data_import": data_import.get_data_import_plugin("uproot4", None)},
-    )
-    rich.print(f"[blue]Results[/]: {results}")
-    rich.print(f"[blue]Output written to directory {output_dir}[/]")
 
 
 @app.command()
